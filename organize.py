@@ -84,6 +84,13 @@ def organize_files(target_folder, dry_run=False):
             print(f"[DRY RUN] Would move: {filename} -> {category}/")
             logging.info(f"[DRY RUN] {filename} -> {category}")
         else:
+            base, ext = os.path.splitext(filename)
+            dest_path = os.path.join(dest_dir, filename)
+            counter = 1
+            while os.path.exists(dest_path):
+                new_name = f"{base}_{counter}{ext}"
+                dest_path = os.path.join(dest_dir, new_name)
+                counter += 1    
             try:
                 shutil.move(filename, dest_dir)
                 print(f"✅ Moved: {filename} -> {category}/")
